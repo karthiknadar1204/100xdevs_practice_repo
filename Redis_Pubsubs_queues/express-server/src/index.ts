@@ -11,9 +11,12 @@ app.post("/submit", async (req, res) => {
     const problemId = req.body.problemId;
     const code = req.body.code;
     const language = req.body.language;
+    // Takes the submission data from the request.
 
+    
     try {
-        await client.lPush("problems", JSON.stringify({ code, language, problemId }));
+        // Stores the data in a Redis list named "problems" using client.lPush(). This means the submission is added to the end of the list.
+        await client.lPush("problems", JSON.stringify({ code, language, problemId })); 
         // Store in the database
         res.status(200).send("Submission received and stored.");
     } catch (error) {
@@ -36,3 +39,10 @@ async function startServer() {
 }
 
 startServer();
+
+
+
+
+
+// Express Server: Connects to Redis when it starts up.
+//  It uses Redis to store new submissions.

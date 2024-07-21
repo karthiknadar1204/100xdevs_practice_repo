@@ -6,6 +6,23 @@ const PORT = 3000;
 
 app.use(express.json());
 
+When a Request is Made:
+
+// The rate limiter checks the IP address of the incoming request.
+// It tracks how many requests have been made by this IP address within the configured time window.
+// If the Limit is Not Exceeded:
+
+// The request is allowed to proceed, and the rate limiter updates the count for the IP address.
+// If the Limit is Exceeded:
+
+// The request is blocked.
+// The server responds with a message indicating that the rate limit has been
+// exceeded and tells the user to wait before making more requests.
+
+
+// otpLimiter: Limits how many OTP requests an IP address can make in a 5-minute window (up to 3 requests).
+// Rate limiting controls how many times a user or IP address can access a particular resource (like an API endpoint)
+//  within a specific time period. It helps prevent abuse and ensure fair usage.
 // Rate limiter configuration
 const otpLimiter = rateLimit({
     windowMs: 5 * 60 * 1000, // 5 minutes
@@ -15,6 +32,7 @@ const otpLimiter = rateLimit({
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
 
+// passwordResetLimiter: Limits how many password reset requests an IP address can make in a 15-minute window (up to 5 requests).
 const passwordResetLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 5, // Limit each IP to 5 password reset requests per windowMs
@@ -23,7 +41,9 @@ const passwordResetLimiter = rateLimit({
     legacyHeaders: false,
 });
 
+
 // Store OTPs in a simple in-memory object
+// otpStore: An object used to temporarily store OTPs associated with email addresses.
 const otpStore: Record<string, string> = {};
 
 // Endpoint to generate and log OTP with rate limiting

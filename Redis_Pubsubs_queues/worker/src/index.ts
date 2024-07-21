@@ -11,7 +11,7 @@ async function processSubmission(submission: string) {
 
     // Simulate processing delay
     await new Promise(resolve => setTimeout(resolve, 1000));
-    console.log(`Finished processing submission for problemId ${problemId}.`);
+    console.log(`Finished processing submission for problemId ${problemId}.`); 
 }
 
 async function startWorker() {
@@ -23,9 +23,13 @@ async function startWorker() {
         // Main loop
         while (true) {
             try {
+                // Continuously checks the Redis list "problems" for new submissions using client.brPop().
+                //  This command blocks and waits until there is an item in the list.
+
                 const submission = await client.brPop("problems", 0);
                 // @ts-ignore
                 await processSubmission(submission.element);
+                // Once it finds a submission, it processes it (e.g., by printing the details to the console).
             } catch (error) {
                 console.error("Error processing submission:", error);
                 // Implement your error handling logic here. For example, you might want to push
@@ -38,3 +42,9 @@ async function startWorker() {
 }
 
 startWorker();
+
+
+// Worker: Also connects to Redis when it starts up.
+//  It uses Redis to retrieve and process submissions.
+
+
