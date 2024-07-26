@@ -1,3 +1,6 @@
 [submodule "docker"]
 	path = docker
 	url = https://github.com/karthiknadar1204/Docker.git
+[submodule "monitoringprometheus"]
+	path = monitoringprometheus
+	url = https://github.com/karthiknadar1204/week-26-prom.git
