@@ -4,3 +4,6 @@
 [submodule "monitoringprometheus"]
 	path = monitoringprometheus
 	url = https://github.com/karthiknadar1204/week-26-prom.git
+[submodule "kubernetes"]
+	path = kubernetes
+	url = https://github.com/karthiknadar1204/Kubernetes.git
