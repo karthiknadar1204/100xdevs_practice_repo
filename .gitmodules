@@ -7,3 +7,9 @@
 [submodule "kubernetes"]
 	path = kubernetes
 	url = https://github.com/karthiknadar1204/Kubernetes.git
+[submodule "hpa2"]
+	path = hpa2
+	url = https://github.com/100xdevs-cohort-2/week-28-manifests.git
+[submodule "hpa3/week-26-manifests"]
+	path = hpa3/week-26-manifests
+	url = https://github.com/100xdevs-cohort-2/week-28-manifests.git
