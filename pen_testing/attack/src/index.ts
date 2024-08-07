@@ -6,7 +6,7 @@ const PORT = 3000;
 
 app.use(express.json());
 
-When a Request is Made:
+// When a Request is Made:
 
 // The rate limiter checks the IP address of the incoming request.
 // It tracks how many requests have been made by this IP address within the configured time window.
