@@ -28,8 +28,9 @@ describe('sum module', () => {
 
 
 // - The test has a descriptive name: "adds 1 + 2 to equal 3"
-// It calls the sum function with inputs 1 and 2
-// expect().toBe() is an assertion that checks if the result equals 3
+// "it" calls the sum function with inputs 1 and 2
+// "expect().toBe()" is an assertion that checks if the result equals 3
+
 // In plain English, this test is saying:
 // > "Hey, when I give the numbers 1 and 2 to my sum function, I expect to get back the number 3. If I get anything else, something's wrong with my function!"
 // This is a very basic example of unit testing, where we're testing a single function (sum) to make sure it behaves exactly as we expect it to.
