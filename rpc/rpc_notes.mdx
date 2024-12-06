@@ -1,0 +1,184 @@
+What is RPC
+RPC stands for remote procedure call . As the name suggests, it lets you call a function in on a different process/server/backend and get back
+a response from it.
+
+
+why RPC?
+This is how we’ve made our backends talk to each other until now.
+We send out an http request , get back a response.
+
+here are a few flaws in this approach
+No types. You don’t know what is the shape of the data you will get back. You might be able to share types between 2 Node.js backends somehow,
+but if the other backend is in Rust, then you cant get back the types from it.
+
+We use JSON to serialize and deserialize data
+We have to know what axios is , or what fetch is . We need to understand HTTP and how to call it
+Not language agnostic at all. We have to use a different library in Java, go, rust to send an http request to the server
+
+
+
+
+GRPC
+gRPC is an open-source remote procedure call (RPC) framework developed by Google. It allows you to define services and messages using
+Protocol Buffers, a language-agnostic data serialization format, and then generate client and server code in various programming languages
+ 
+TRPC
+tRPC gives u types on the frontend and backend if u have a full stack app in js.
+We have a video from cohort 1 on it. Not used too much
+
+
+
+
+PROTOCOL BUFFERS(protobuf)
+Protocol buffers are Google’s language-neutral, platform-neutral, extensible mechanism for serializing structured data – think XML, JSON.
+The protocol buffers are where we define our service definitions and messages. This will be like a contract or common interface between the client and
+server on what to expect from each other; the methods, types, and returns of what each operation would bear.
+
+Schema Definition Language: Protocol Buffers use a schema definition language (.proto files) to define the structure of data. This language allows you
+to specify message types, fields, enums, and services.
+
+Binary Serialization: Protocol Buffers serialize data into a binary format, which is more compact and efficient compared to text-based formats like XML and JSON. 
+Language Support and Code Generation: Protocol Buffers support code generation for a wide range of programming languages, including C++, Java, Go, Python,
+JavaScript, Ruby, and more. Protocol Buffers come with tools (e.g., protoc) that generate code in various programming languages based on your .proto files.
+ 
+
+
+ Sample proto file:
+ syntax = "proto3";
+
+// Define a message type representing a person.
+message Person {
+  string name = 1;
+  int32 age = 2;
+}
+
+service PersonService {
+  // Add a person to the address book.
+  rpc AddPerson(Person) returns (Person);-->can be thought of as an http endpoint.
+  
+  // Get a person from their name
+  rpc GetPersonByName(GetPersonByNameRequest) returns (Person);-->can be thought of as an http endpoint.
+}
+
+message GetPersonByNameRequest {
+  string name = 1;
+}
+
+There are a few things to unpack here - 
+message - A message that can be encoded/decoded/transferred 
+types
+string
+int32
+service - Describes what all rpc methods you support
+
+
+Field numbers
+In Protocol Buffers, each field within a message type is assigned a unique numerical identifier called a tag or field number. These field numbers serve
+several purposes:
+
+Efficient Encoding: Field numbers are used during serialization and deserialization to efficiently encode and decode the data. Instead of including field
+names in the serialized data, Protocol Buffers use field numbers, which are typically more compact and faster to process.
+
+Backward Compatibility: Field numbers are stable identifiers that remain consistent even if you add, remove, or reorder fields within a message type. This
+means that old serialized data can still be decoded correctly by newer versions of your software, even if the message type has changed.
+
+Language Independence: Field numbers provide a language-independent way to refer to fields within a message type. Regardless of the programming language 
+used to generate the code, the field numbers remain the same, ensuring interoperability between different implementations.
+
+
+
+
+
+
+
+
+Types in pbf
+Protobuffs give you access to a lot of types/enums/message types
+ 
+ 1) Scalar Types:
+int32, int64, uint32, uint64: Signed and unsigned integers of various sizes.
+float, double: Floating-point numbers.
+bool: Boolean values (true or false).
+string: Unicode text strings.
+bytes: Arbitrary binary data.
+eg:
+syntax = "proto3";
+
+// Define a message type representing an address.
+message Address {
+  string street = 1;
+  string city = 2;
+  string state = 3;
+  string zip = 4;
+}
+
+// Define a message type representing a person.
+message Person {
+  string name = 1;
+  int32 age = 2;
+  Address address = 3;
+}
+
+
+2) Message Types:
+Message types allow you to define structured data with nested fields. They can contain scalar types, other message types, or repeated fields (arrays).
+You define message types using the message keyword followed by the name of the message type and its fields.
+eg:
+message Person {
+  string name = 1;
+  int32 age = 2;
+  repeated string phone_numbers = 3;
+}
+
+
+3) Enum Types:
+Enum Types:
+Enum types define a set of named constant values.
+You define enum types using the enum keyword followed by the name of the enum type and its values.
+eg:
+enum PhoneType {
+  MOBILE = 0;
+  HOME = 1;
+  WORK = 2;
+}
+
+
+4) Maps
+Maps are a collection of key-value pairs.
+message MapMessage {
+  map<string, int32> id_to_age = 1;
+}
+
+
+A more complex example:
+syntax = "proto3";
+
+// Define an enum representing the type of phone numbers.
+enum PhoneType {
+  MOBILE = 0;
+  HOME = 1;
+  WORK = 2;
+}
+
+// Define a message type representing a phone number.
+message PhoneNumber {
+  string number = 1;
+  PhoneType type = 2;
+}
+
+// Define a message type representing an address.
+message Address {
+  string street = 1;
+  string city = 2;
+  string state = 3;
+  string zip = 4;
+}
+
+// Define a message type representing a person.
+message Person {
+  string name = 1;
+  int32 age = 2;
+  repeated PhoneNumber phone_numbers = 3;
+  Address address = 4;
+}
+

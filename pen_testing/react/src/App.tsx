@@ -22,7 +22,7 @@ function App() {
       }} siteKey='0x4AAAAAAAXtEe2JIeAEUcjX' />
 
       <button onClick={() => {
-        axios.post("http://localhost:3000/reset-password", {
+        axios.post("http://localhost:3000/reset-password", { 
           email: "harkirat@gmail.com",
           otp: "123456",
           token: token,
