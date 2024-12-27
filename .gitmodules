@@ -13,3 +13,6 @@
 [submodule "hpa3/week-26-manifests"]
 	path = hpa3/week-26-manifests
 	url = https://github.com/100xdevs-cohort-2/week-28-manifests.git
+[submodule "testing_testing"]
+	path = testing_testing
+	url = https://github.com/100xdevs-cohort-2/week-24-testing.git
